@@ -1,7 +1,7 @@
 class Vector(object):
 	def __init__(self, x, y):
-		self.x = float(x)
-		self.y = float(y)
+		self.x = int(x)
+		self.y = int(y)
 
 	def dot(self, other):
 		"""
@@ -26,8 +26,8 @@ class Vector(object):
 
 class Point(Vector):
 	def __init__(self, x, y):
-		self.x = float(x)
-		self.y = float(y)
+		self.x = int(x)
+		self.y = int(y)
 
 class Segment(object):
 	def __init__(self, a, b):
@@ -48,7 +48,7 @@ class Segment(object):
 		Be aware that it can be infinite.
 		"""
 		try: 
-			return (self.a.y - self.b.y) / (self.a.x - self.b.x)
+			return float(self.a.y - self.b.y) / (self.a.x - self.b.x)
 		except ZeroDivisionError:
 			return float("inf")
 
@@ -72,10 +72,10 @@ class Segment(object):
 		F = other.vec()
 
 		P = Vector(-E.y, E.x)
-		h = ((self.a.sub(other.a)).dot(P)) / (F.dot(P))
+		h = float((self.a.sub(other.a)).dot(P)) / (F.dot(P))
 
 		Q = Vector(-F.y, F.x)
-		g = ((other.a.sub(self.a)).dot(Q)) / (E.dot(Q))
+		g = float((other.a.sub(self.a)).dot(Q)) / (E.dot(Q))
 
 		# Using < instead of <= ensures that endpoints don't count as crossings		
 		return 0 < h and h < 1 and 0 < g and g < 1

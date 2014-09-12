@@ -8,7 +8,7 @@ def BFguilhermeberger():
 	f = open('T1guilhermeberger.txt', 'r')
 	first = next(f)
 
-	nreds, nblues, expected = map(int, first.strip().split(' '))
+	nreds, nblues, expected = map(int, first.strip().split())
 
 	reds = [read_segment(next(f)) for i in range(nreds)]
 	blus = [read_segment(next(f)) for i in range(nblues)]
