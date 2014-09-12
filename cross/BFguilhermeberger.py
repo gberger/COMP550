@@ -1,22 +1,16 @@
 import sys
 from linalg import *
-
-def read_segment(str, color):
-	ax, ay, bx, by = map(int, str.strip().split(' '))
-	return ColoredSegment(Point(ax, ay), Point(bx, by), color)
+import read_segments
 
 def BFguilhermeberger():
+	"""
+	Given a file representing red and blue segments,
+	and an expected number of crossings between red and blue
+	segments, verify that this expected number is correct.
+	"""
+
 	filename = sys.argv[1]
-	f = open(filename, 'r')
-	first = next(f)
-
-	nreds, nblues, expected = map(int, first.strip().split())
-
-	reds = [read_segment(next(f), 'red') for i in range(nreds)]
-	blus = [read_segment(next(f), 'blue') for i in range(nblues)]
-
-	f.close()
-
+	reds, blus, expected = read_segments.read(filename)
 	actual = 0
 
 	for red in reds:
