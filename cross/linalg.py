@@ -15,14 +15,33 @@ class Vector(object):
 		"""
 		return Vector(other.x - self.x, other.y - self.y)
 
-	def __eq__(self, other):
-		"""
-		Two vectors are equal if their X and Y are equal.
-		"""
-		return isinstance(other, self.__class__) and self.x == other.x and self.y == other.y
+	def compare(self, other):
+		if !isinstance(other, self.__class__)
+			raise TypeError("Can't compare")
 
-	def __ne__(self, other):
-		return not self.__eq__(other)
+		if this.x < other.x:
+			return -1
+		elif this.x > other.x:
+			return 1
+		elif this.y < other.y:
+			return -1
+		elif this.y > other.y:
+			return 1
+		else
+			return 0 
+
+    def __lt__(self, other):
+        return self.compare(other) < 0
+    def __gt__(self, other):
+        return self.compare(other) > 0
+    def __eq__(self, other):
+        return self.compare(other) == 0
+    def __le__(self, other):
+        return self.compare(other) <= 0
+    def __ge__(self, other):
+        return self.compare(other) >= 0
+    def __ne__(self, other):
+        return self.compare(other) != 0
 
 class Point(Vector):
 	def __init__(self, x, y):
