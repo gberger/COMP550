@@ -15,4 +15,9 @@ def read(filename):
 
 	f.close()
 
+	for idx, red in enumerate(reds):
+		red.num = idx+1
+	for idx, blu in enumerate(blus):
+		blu.num = idx+1
+
 	return (reds, blus, expected)
