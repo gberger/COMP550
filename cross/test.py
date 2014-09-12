@@ -60,17 +60,17 @@ class TestFlag(unittest.TestCase):
 		a = Point(-6, 8)
 		b = Point(5, 12)
 		s = Segment(a, b)
-		self.assertRaises(TypeError, Flag, (None, 'start', s))
+		self.assertRaises(TypeError, Flag, (None, 'Start', s))
 		self.assertRaises(TypeError, Flag, (a, 'blablabl', s))
-		self.assertRaises(TypeError, Flag, (a, 'start', None))
+		self.assertRaises(TypeError, Flag, (a, 'Start', None))
 
 	def test_compare_kind(self):
 		# terminal < start
 		a = Point(1, 1)
 		b = Point(2, 2)
 		c = Point(3, 3)
-		s = ColoredSegment(a, b, 'blue')
-		t = ColoredSegment(b, c, 'blue')
+		s = ColoredSegment(a, b, 'Blue')
+		t = ColoredSegment(b, c, 'Blue')
 		self.assertTrue(s.b < t.a)
 
 	def test_compare_slope(self):
@@ -78,15 +78,15 @@ class TestFlag(unittest.TestCase):
 		a = Point(1, 1)
 		b = Point(2, 2)
 		d = Point(2, 3)
-		s = ColoredSegment(a, b, 'blue')
-		r = ColoredSegment(a, d, 'blue')
+		s = ColoredSegment(a, b, 'Blue')
+		r = ColoredSegment(a, d, 'Blue')
 		self.assertTrue(s.a > r.a)
 
 	def test_compare_color(self):
 		a = Point(1, 1)
 		b = Point(2, 2)
-		s = ColoredSegment(a, b, 'blue')
-		u = ColoredSegment(a, b, 'red')
+		s = ColoredSegment(a, b, 'Blue')
+		u = ColoredSegment(a, b, 'Red')
 		# blue start < red start
 		self.assertTrue(s.a < u.a)
 		# red terminal < blue terminal
@@ -96,8 +96,8 @@ class TestFlag(unittest.TestCase):
 		a = Point(1, 1)
 		b = Point(2, 2)
 		c = Point(3, 3)
-		s = ColoredSegment(a, b, 'blue')
-		r = ColoredSegment(a, c, 'blue')
+		s = ColoredSegment(a, b, 'Blue')
+		r = ColoredSegment(a, c, 'Blue')
 		self.assertRaises(ValueError, s.a.compare, r.a)
 
 	def test_slope(self):

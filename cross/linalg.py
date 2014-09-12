@@ -50,9 +50,9 @@ class Point(Vector):
 
 class Flag(Point):
 	def __init__(self, point, kind, parent):
-		kind = kind.lower()
-		if kind not in ['start', 'terminal']:
-			raise TypeError("Valid kinds are 'start' or 'terminal'")
+		kind = kind.capitalize()
+		if kind not in ['Start', 'Terminal']:
+			raise TypeError("Valid kinds are 'Start' or 'Terminal'")
 		if not isinstance(parent, Segment):
 			raise TypeError("Parent must be a segment")
 		if not isinstance(point, Point):
@@ -66,7 +66,7 @@ class Flag(Point):
 
 	def slope(self):
 		parent_slope = self.parent.slope()
-		if self.kind == 'start':
+		if self.kind == 'Start':
 			return -parent_slope
 		else:
 			return parent_slope
@@ -78,9 +78,9 @@ class Flag(Point):
 		pt_cmp = self.point.compare(other.point)
 		if pt_cmp != 0:
 			return pt_cmp
-		elif self.kind == 'terminal' and other.kind == 'start':
+		elif self.kind == 'Terminal' and other.kind == 'Start':
 			return -1
-		elif self.kind == 'start' and other.kind == 'terminal':
+		elif self.kind == 'Start' and other.kind == 'Terminal':
 			return 1
 		else:
 			self_slope = self.slope()
@@ -89,15 +89,15 @@ class Flag(Point):
 				return -1
 			elif self_slope > other_slope:
 				return 1
-			elif self.kind == 'start':
-				if self.color() == 'blue' and other.color() == 'red':
+			elif self.kind == 'Start':
+				if self.color() == 'Blue' and other.color() == 'Red':
 					return -1
-				elif self.color() == 'red' and other.color() == 'blue':
+				elif self.color() == 'Red' and other.color() == 'Blue':
 					return 1
-			elif self.kind == 'terminal':
-				if self.color() == 'blue' and other.color() == 'red':
+			elif self.kind == 'Terminal':
+				if self.color() == 'Blue' and other.color() == 'Red':
 					return 1
-				elif self.color() == 'red' and other.color() == 'blue':
+				elif self.color() == 'Red' and other.color() == 'Blue':
 					return -1
 		raise ValueError("Overlapping lines of same color!")
 
@@ -110,8 +110,8 @@ class Segment(object):
 		if a > b:
 			b, a = a, b
 
-		self.a = Flag(a, 'start', self)
-		self.b = Flag(b, 'terminal', self)
+		self.a = Flag(a, 'Start', self)
+		self.b = Flag(b, 'Terminal', self)
 
 	def vec(self):
 		"""
@@ -159,9 +159,9 @@ class Segment(object):
 
 class ColoredSegment(Segment):
 	def __init__(self, a, b, color):
-		color = color.lower()
-		if color not in ['red', 'blue']:
-			raise TypeError("Valid colors are 'red' or 'blue'")
+		color = color.capitalize()
+		if color not in ['Red', 'Blue']:
+			raise TypeError("Valid colors are 'Red' or 'Blue'")
 
 		super(ColoredSegment, self).__init__(a, b)
 		self.color = color
