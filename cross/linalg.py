@@ -16,32 +16,32 @@ class Vector(object):
 		return Vector(other.x - self.x, other.y - self.y)
 
 	def compare(self, other):
-		if !isinstance(other, self.__class__)
+		if not isinstance(other, self.__class__):
 			raise TypeError("Can't compare")
 
-		if this.x < other.x:
+		if self.x < other.x:
 			return -1
-		elif this.x > other.x:
+		elif self.x > other.x:
 			return 1
-		elif this.y < other.y:
+		elif self.y < other.y:
 			return -1
-		elif this.y > other.y:
+		elif self.y > other.y:
 			return 1
-		else
+		else:
 			return 0 
 
-    def __lt__(self, other):
-        return self.compare(other) < 0
-    def __gt__(self, other):
-        return self.compare(other) > 0
-    def __eq__(self, other):
-        return self.compare(other) == 0
-    def __le__(self, other):
-        return self.compare(other) <= 0
-    def __ge__(self, other):
-        return self.compare(other) >= 0
-    def __ne__(self, other):
-        return self.compare(other) != 0
+	def __lt__(self, other):
+		return self.compare(other) < 0
+	def __gt__(self, other):
+		return self.compare(other) > 0
+	def __eq__(self, other):
+		return self.compare(other) == 0
+	def __le__(self, other):
+		return self.compare(other) <= 0
+	def __ge__(self, other):
+		return self.compare(other) >= 0
+	def __ne__(self, other):
+		return self.compare(other) != 0
 
 class Point(Vector):
 	def __init__(self, x, y):

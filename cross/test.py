@@ -15,6 +15,36 @@ class TestLinearAlgebra(unittest.TestCase):
 
 		self.assertNotEqual(a, b)
 
+	def test_lt_x(self):
+		a = Point(1, 2)
+		b = Point(3, 4)
+
+		self.assertTrue(a < b)
+
+	def test_lt_y(self):
+		a = Point(1, 2)
+		b = Point(1, 4)
+
+		self.assertTrue(a < b)
+
+	def test_gt_x(self):
+		a = Point(1, 2)
+		b = Point(3, 4)
+
+		self.assertTrue(b > a)
+
+	def test_gt_y(self):
+		a = Point(1, 2)
+		b = Point(1, 4)
+
+		self.assertTrue(b > a)
+
+	def test_(self):
+		a = Vector(1, 2)
+		b = Vector(10, 555)
+
+		self.assertNotEqual(a, b)
+
 	def test_dot(self):
 		a = Vector(-6, 8)
 		b = Vector(5, 12)
@@ -30,7 +60,6 @@ class TestLinearAlgebra(unittest.TestCase):
 	def test_sub_vecs(self):
 		a = Vector(-6, 8)
 		b = Vector(5, 12)
-
 		c = Vector(11, 4)
 
 		self.assertEqual(a.sub(b), c)
@@ -38,7 +67,6 @@ class TestLinearAlgebra(unittest.TestCase):
 	def test_sub_points(self):
 		a = Point(-6, 8)
 		b = Point(5, 12)
-
 		c = Vector(11, 4)
 
 		self.assertEqual(a.sub(b), c)
