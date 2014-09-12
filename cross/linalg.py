@@ -48,12 +48,70 @@ class Point(Vector):
 		self.x = int(x)
 		self.y = int(y)
 
+class Flag(Point):
+	def __init__(self, point, kind, parent):
+		kind = kind.lower()
+		if kind not in ['start', 'terminal']:
+			raise TypeError("Valid kinds are 'start' or 'terminal'")
+		if not isinstance(parent, Segment):
+			raise TypeError("Parent must be a segment")
+		if not isinstance(point, Point):
+			raise TypeError("Must give a Point")
+
+		self.x = point.x
+		self.y = point.y
+		self.point = point
+		self.kind = kind
+		self.parent = parent
+
+	def slope(self):
+		parent_slope = self.parent.slope()
+		if self.kind == 'start':
+			return -parent_slope
+		else:
+			return parent_slope
+
+	def color(self):
+		return self.parent.color
+
+	def compare(self, other):
+		pt_cmp = self.point.compare(other.point)
+		if pt_cmp != 0:
+			return pt_cmp
+		elif self.kind == 'terminal' and other.kind == 'start':
+			return -1
+		elif self.kind == 'start' and other.kind == 'terminal':
+			return 1
+		else:
+			self_slope = self.slope()
+			other_slope = other.slope()
+			if self_slope < other_slope:
+				return -1
+			elif self_slope > other_slope:
+				return 1
+			elif self.kind == 'start':
+				if self.color() == 'blue' and other.color() == 'red':
+					return -1
+				elif self.color() == 'red' and other.color() == 'blue':
+					return 1
+			elif self.kind == 'terminal':
+				if self.color() == 'blue' and other.color() == 'red':
+					return 1
+				elif self.color() == 'red' and other.color() == 'blue':
+					return -1
+		raise ValueError("Overlapping lines of same color!")
+
+
 class Segment(object):
 	def __init__(self, a, b):
 		if not isinstance(a, Point) or not isinstance(b, Point):
 			raise TypeError("Arguments to Segment must be two points")
-		self.a = a
-		self.b = b
+
+		if a > b:
+			b, a = a, b
+
+		self.a = Flag(a, 'start', self)
+		self.b = Flag(b, 'terminal', self)
 
 	def vec(self):
 		"""
@@ -101,5 +159,9 @@ class Segment(object):
 
 class ColoredSegment(Segment):
 	def __init__(self, a, b, color):
+		color = color.lower()
+		if color not in ['red', 'blue']:
+			raise TypeError("Valid colors are 'red' or 'blue'")
+
 		super(ColoredSegment, self).__init__(a, b)
 		self.color = color
