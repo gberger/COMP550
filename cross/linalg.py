@@ -79,3 +79,8 @@ class Segment(object):
 
 		# Using < instead of <= ensures that endpoints don't count as crossings		
 		return 0 < h and h < 1 and 0 < g and g < 1
+
+class ColoredSegment(Segment):
+	def __init__(self, a, b, color):
+		super(ColoredSegment, self).__init__(a, b)
+		self.color = color

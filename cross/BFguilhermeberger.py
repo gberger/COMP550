@@ -1,17 +1,19 @@
+import sys
 from linalg import *
 
-def read_segment(str):
+def read_segment(str, color):
 	ax, ay, bx, by = map(int, str.strip().split(' '))
-	return Segment(Point(ax, ay), Point(bx, by))
+	return ColoredSegment(Point(ax, ay), Point(bx, by), color)
 
 def BFguilhermeberger():
-	f = open('T1guilhermeberger.txt', 'r')
+	filename = sys.argv[1]
+	f = open(filename, 'r')
 	first = next(f)
 
 	nreds, nblues, expected = map(int, first.strip().split())
 
-	reds = [read_segment(next(f)) for i in range(nreds)]
-	blus = [read_segment(next(f)) for i in range(nblues)]
+	reds = [read_segment(next(f), 'red') for i in range(nreds)]
+	blus = [read_segment(next(f), 'blue') for i in range(nblues)]
 
 	f.close()
 
@@ -22,9 +24,14 @@ def BFguilhermeberger():
 			if red.cross(blu):
 				actual += 1
 
-	return actual == expected
+	return (actual == expected, actual, expected)
 
 
 if __name__ == '__main__':
-	if BFguilhermeberger() == True:
+	verified, actual, expected = BFguilhermeberger()
+	if verified:
 		print("VERIFIED")
+	else:
+		print("FAIL")
+		print("EXPECTED %d" % expected)
+		print("ACTUAL   %d" % actual)
