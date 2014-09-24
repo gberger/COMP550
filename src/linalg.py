@@ -78,6 +78,9 @@ class Flag(Point):
 		return self.parent.color
 
 	def compare(self, other):
+		"""
+		Comparison conditions defined in SI3
+		"""
 		pt_cmp = self.point.compare(other.point)
 		if pt_cmp != 0:
 			return pt_cmp
@@ -159,6 +162,34 @@ class Segment(object):
 
 		# Using < instead of <= ensures that endpoints don't count as crossings		
 		return 0 < h and h < 1 and 0 < g and g < 1
+
+
+	def compare(self, other):
+		"""
+		Compare by Y-coordinate of Start flag. Useful for the sweep
+		"""
+		if not isinstance(other, self.__class__):
+			raise TypeError("Can't compare")
+
+		if self.a.y < other.a.y:
+			return -1
+		elif self.a.y > other.a.y:
+			return 1
+		else:
+			return 0 
+
+	def __lt__(self, other):
+		return self.compare(other) < 0
+	def __gt__(self, other):
+		return self.compare(other) > 0
+	def __eq__(self, other):
+		return self.compare(other) == 0
+	def __le__(self, other):
+		return self.compare(other) <= 0
+	def __ge__(self, other):
+		return self.compare(other) >= 0
+	def __ne__(self, other):
+		return self.compare(other) != 0
 
 class ColoredSegment(Segment):
 	def __init__(self, a, b, color):

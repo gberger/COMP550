@@ -13,24 +13,16 @@ class sortlist:
         print(s.search(52))
     """
 
-    def __init__(self, list, sort_fn):
-        self.list = list
-        self.sort()
-
-    def sort(self):
-        l = []
-        i = 0
-        for i in range(len(self.list)):
-            bisect.insort(l, self.list[i])
-        self.list = l
-        self.len = i
+    def __init__(self, list):
+        self.list = []
+        for item in list:
+            bisect.insort(self.list, item)
 
     def insert(self, value):
         bisect.insort(self.list, value)
-        self.len += 1
 
     def remove(self, value):
-        return self.list.remove(value)
+        self.list.remove(value)
 
     def to_list(self):
         return self.list[:]
@@ -46,10 +38,3 @@ class sortlist:
 
     def __len__(self):
         return len(self.list)
-
-    def search(self,value):
-        left = bisect.bisect_left(self.list, value)
-        if abs(self.list[min([left,self.len-1])] - value) >= abs(self.list[left-1] - value):
-            return self.list[left-1]
-        else:
-            return self.list[left]
