@@ -1,3 +1,6 @@
+MIN_COORD = -2**20
+MAX_COORD = 2**20
+
 class Vector(object):
 	def __init__(self, x, y):
 		self.x = int(x)
