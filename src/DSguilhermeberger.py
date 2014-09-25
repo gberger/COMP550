@@ -2,8 +2,7 @@ import sys
 
 from linalg import *
 import read_segments
-from sortlist import sortlist
-from pprint import pprint
+from bintree import BinaryTree
 
 def DSguilhermeberger(blus):
 	"""
@@ -14,6 +13,9 @@ def DSguilhermeberger(blus):
 	bot_sentinel = ColoredSegment(Point(MIN_COORD-1, MIN_COORD-1), Point(MAX_COORD+1, MIN_COORD-1), 'Blue')
 	top_sentinel = ColoredSegment(Point(MIN_COORD-1, MAX_COORD+1), Point(MAX_COORD+1, MAX_COORD+1), 'Blue')
 
+	bot_sentinel.num = float("-inf")
+	top_sentinel.num = float("inf")
+
 	blu_start_flags = [seg.a for seg in blus]
 	blu_terminal_flags = [seg.b for seg in blus]
 
@@ -23,27 +25,34 @@ def DSguilhermeberger(blus):
 	flags = sorted(flags)
 
 	# This list is ordered by the Y coordinate of the Start flag
-	sweep = sortlist([])
-	sweep.insert(bot_sentinel)
-	sweep.insert(top_sentinel)
+	sweep = BinaryTree()
+	sweep.insert(bot_sentinel, bot_sentinel.num)
+	sweep.insert(top_sentinel, top_sentinel.num)
 
 	# By iterating through `flags`, we are effectively sweeping a vertical line from left to right
 	for flag in flags:
+		segment = flag.parent
+
 		if flag.kind == 'Start':
 			# If we found a Start flag, we add its segment to the active list
 			# It may cross the segment before or after it
-			sweep.insert(flag.parent)
-			index = sweep.index(flag.parent)
-			if sweep[index-1].cross(sweep[index]) or sweep[index].cross(sweep[index+1]):
+			sweep.insert(segment, segment.num)
+
+			prev = sweep.predecessor_to(segment, segment.num)
+			succ = sweep.successor_to(segment, segment.num)
+
+			if prev.cross(segment) or segment.cross(succ):
 				return False
 
 		else:
 			# If we found a Terminal flag, we remove its segment from the active list
 			# Now, its remaining neighbors may cross
-			index = sweep.index(flag.parent)
-			if sweep[index-1].cross(sweep[index+1]):
+			prev = sweep.predecessor_to(segment, segment.num)
+			succ = sweep.successor_to(segment, segment.num)
+
+			if prev.cross(succ):
 				return False
-			sweep.remove(flag.parent)
+			sweep.remove(segment)
 
 	return True
 
