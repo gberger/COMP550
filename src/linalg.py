@@ -68,14 +68,13 @@ class Flag(Point):
 		self.parent = parent
 
 	def slope(self):
-		parent_slope = self.parent.slope()
-		if self.kind == 'Start':
-			return -parent_slope
-		else:
-			return parent_slope
+		return self.parent.slope()
 
 	def color(self):
 		return self.parent.color
+
+	def num(self):
+		return self.parent.num
 
 	def compare(self, other):
 		"""
@@ -94,9 +93,9 @@ class Flag(Point):
 			if self.kind == 'Start' and self_slope < other_slope:
 				return 1
 			elif self.kind == 'Start' and self_slope > other_slope:
-					return -1
+				return -1
 			elif self_slope < other_slope:
-					return -1
+				return -1
 			elif self_slope > other_slope:
 				return 1
 			elif self.kind == 'Start':
@@ -110,6 +109,9 @@ class Flag(Point):
 				elif self.color() == 'Red' and other.color() == 'Blue':
 					return -1
 		raise ValueError("Overlapping lines of same color!")
+
+	def __repr__(self):
+		return "[%s %d %d %d %d %s]" % (self.kind, self.parent.a.x, self.parent.a.y, self.parent.b.x, self.parent.b.y, self.parent.color)
 
 
 class Segment(object):
@@ -179,8 +181,12 @@ class Segment(object):
 			return -1
 		elif self.a.y > other.a.y:
 			return 1
+		elif self.b.y < self.b.y:
+			return -1
+		elif self.b.y > self.b.y:
+			return 1
 		else:
-			return 0 
+			raise "wtf"
 
 	def __lt__(self, other):
 		return self.compare(other) < 0
@@ -203,3 +209,29 @@ class ColoredSegment(Segment):
 
 		super(ColoredSegment, self).__init__(a, b)
 		self.color = color
+
+	def compare(self, other):
+		"""
+		Compare by Y-coordinate of Start flag, 
+		"""
+		if not isinstance(other, self.__class__):
+			raise TypeError("Can't compare")
+
+		if self.a.y < other.a.y:
+			return -1
+		elif self.a.y > other.a.y:
+			return 1
+		elif self.b.y < other.b.y:
+			return -1
+		elif self.b.y > other.b.y:
+			return 1
+		elif self.color == 'Blue' and other.color == 'Red':
+			return 1
+		elif self.color == 'Red' and other.color == 'Blue':
+			return -1
+		else:
+			return 0
+
+
+	def __repr__(self):
+		return "[%d %d %d %d %s]" % (self.a.x, self.a.y, self.b.x, self.b.y, self.color)
