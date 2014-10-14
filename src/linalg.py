@@ -91,8 +91,12 @@ class Flag(Point):
 		else:
 			self_slope = self.slope()
 			other_slope = other.slope()
-			if self_slope < other_slope:
-				return -1
+			if self.kind == 'Start' and self_slope < other_slope:
+				return 1
+			elif self.kind == 'Start' and self_slope > other_slope:
+					return -1
+			elif self_slope < other_slope:
+					return -1
 			elif self_slope > other_slope:
 				return 1
 			elif self.kind == 'Start':
